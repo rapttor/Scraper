@@ -1,0 +1,54 @@
+{
+  "name": "rapttor/scraper",
+  "description": "General scraping helper class",
+  "keywords": [
+    "php",
+    "helper",
+    "scraper"
+  ],
+  "homepage": "http://www.rapttor.com/",
+  "type": "library",
+  "license": "Apache-2.0",
+  "authors": [
+    {
+      "name": "Emir Kurtovic",
+      "email": "rapttor@gmail.com",
+      "homepage": "http://www.rapttor.com/",
+      "role": "Founder and project lead"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/rapttor/helper/issues?state=open",
+    "wiki": "https://github.com/rapttor/helper/wiki",
+    "source": "https://github.com/rapttor/scraper.git"
+  },
+  "repositories": [
+    {
+      "type": "package",
+      "package": {
+        "name": "rapttor/scraper",
+        "version": "dev-master",
+        "source": {
+          "url": "https://github.com/rapttor/scraper.git",
+          "type": "git",
+          "reference": "master"
+        },
+        "autoload": {
+          "psr-0": {
+            "RapTToR\\Helper": "src"
+          }
+        }
+      }
+    }
+  ],
+  "require": {
+    "php": ">=4.5.0",
+    "rapttor/helper": "dev-master",
+    "ressio/pharse": "^0.2.0"
+  },
+  "autoload": {
+    "classmap": [
+      "src/Scraper.php"
+    ]
+  }
+}
