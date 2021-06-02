@@ -13,6 +13,10 @@ class Bigfile
 {
     protected $file;
 
+    /**
+     * @param mixed $filename
+     * @param string $mode
+     */
     public function __construct($filename, $mode = "r")
     {
         /* if (!file_exists($filename)) {
@@ -24,6 +28,9 @@ class Bigfile
         $this->file = new \SplFileObject($filename, $mode);
     }
 
+    /**
+     * @return [type]
+     */
     protected function iterateText()
     {
         $count = 0;
@@ -37,6 +44,16 @@ class Bigfile
         return $count;
     }
 
+    /**
+     * @param mixed $bytes
+     * 
+     * @return [type]
+     */
+    /**
+     * @param mixed $bytes
+     * 
+     * @return [type]
+     */
     protected function iterateBinary($bytes)
     {
         $count = 0;
@@ -49,6 +66,12 @@ class Bigfile
         }
     }
 
+    /**
+     * @param string $type
+     * @param null $bytes
+     * 
+     * @return [type]
+     */
     public function iterate($type = "Text", $bytes = NULL)
     {
         if ($type == "Text") {
@@ -65,6 +88,13 @@ class Bigfile
 class Proxy
 {
 
+    /**
+     * @param mixed $ip
+     * @param bool $allow_private
+     * @param array $proxy_ip
+     * 
+     * @return [type]
+     */
     public static function serverIP($ip, $allow_private = false, $proxy_ip = [])
     {
         if (!is_string($ip) || is_array($proxy_ip) && in_array($ip, $proxy_ip)) return false;
@@ -79,6 +109,11 @@ class Proxy
 
         return filter_var($ip, FILTER_VALIDATE_IP, $filter_flag) !== false;
     }
+    /**
+     * @param bool $allow_private
+     * 
+     * @return [type]
+     */
     public static function clientIP($allow_private = false)
     {
         //Place your trusted proxy server IPs here.
@@ -101,6 +136,9 @@ class Proxy
     }
 
     //https://deviceatlas.com/blog/list-of-user-agent-strings
+    /**
+     * @return [type]
+     */
     public static function agentsBot()
     {
         return array(
@@ -113,6 +151,9 @@ class Proxy
         );
     }
 
+    /**
+     * @return [type]
+     */
     public static function agentsDesktop()
     {
         return array(
@@ -129,6 +170,9 @@ class Proxy
         );
     }
 
+    /**
+     * @return [type]
+     */
     public static function agentsTablet()
     {
         return array(
@@ -149,6 +193,9 @@ class Proxy
         );
     }
 
+    /**
+     * @return [type]
+     */
     public static function agentsWindowsMobile()
     {
         return array(
@@ -161,6 +208,9 @@ class Proxy
         );
     }
 
+    /**
+     * @return [type]
+     */
     public static function agentsIOS()
     {
         return array(
@@ -185,6 +235,9 @@ class Proxy
         );
     }
 
+    /**
+     * @return [type]
+     */
     public static function agentsAndroid()
     {
         return array(
@@ -213,6 +266,9 @@ class Proxy
         );
     }
 
+    /**
+     * @return [type]
+     */
     public static function agents()
     {
         return
@@ -236,11 +292,17 @@ class Proxy
         return $agents[$id];
     }
 
+    /**
+     * @return [type]
+     */
     public static function file()
     {
         return __DIR__ . "/../data/proxylist.txt";
     }
 
+    /**
+     * @return [type]
+     */
     public static function load()
     {
         $url = 'https://api.proxyscrape.com?request=getproxies&proxytype=http&timeout=10000&country=all&ssl=all&anonymity=all';
@@ -249,6 +311,11 @@ class Proxy
         return $data;
     }
 
+    /**
+     * @param bool $force
+     * 
+     * @return [type]
+     */
     public static function all($force = false)
     {
         if (file_exists(self::file()) && !$force) {
@@ -287,13 +354,18 @@ class Scraper extends \RapTToR\Helper
 
     public static $cachedir = "./cache/";
 
-    
+
 
     public static $accountTypeLimits = array(
         0 => 200, // instagram
     );
 
 
+    /**
+     * @param mixed $string
+     * 
+     * @return [type]
+     */
     public static function hyphenize($string)
     {
         $dict = array(
@@ -316,6 +388,11 @@ class Scraper extends \RapTToR\Helper
         );
     }
 
+    /**
+     * @param mixed $s
+     * 
+     * @return [type]
+     */
     public static function slug($s)
     {
         $o = $s;
@@ -327,6 +404,11 @@ class Scraper extends \RapTToR\Helper
         return $s;
     }
 
+    /**
+     * @param null $id
+     * 
+     * @return [type]
+     */
     public static function browser($id = null)
     {
         $browsers = array();
@@ -335,6 +417,11 @@ class Scraper extends \RapTToR\Helper
     }
 
 
+    /**
+     * @param mixed $URL
+     * 
+     * @return [type]
+     */
     public static function curl_get_yql($URL)
     {
         $yql_base_url = "http://query.yahooapis.com/v1/public/yql";
@@ -344,11 +431,30 @@ class Scraper extends \RapTToR\Helper
         return self::get($yql_query_url);
     }
 
+    /**
+     * @param mixed $URL
+     * @param mixed $data
+     * @param null $proxy
+     * @param null $agent
+     * @param bool $debug
+     * 
+     * @return [type]
+     */
     public static function post($URL, $data, $proxy = null, $agent = null, $debug = false)
     {
         return self::get($URL, $proxy = null, $agent = null, $debug = false, $data);
     }
 
+
+    /**
+     * @param mixed $URL
+     * @param null $proxy
+     * @param null $agent
+     * @param bool $debug
+     * @param null $data
+     * 
+     * @return [type]
+     */
     public static function get($URL, $proxy = null, $agent = null, $debug = false, $data = null)
     {
         $c = curl_init();
@@ -411,6 +517,12 @@ class Scraper extends \RapTToR\Helper
         } else return FALSE;
     }
 
+    /**
+     * @param mixed $url
+     * @param bool $debug
+     * 
+     * @return [type]
+     */
     public static function scrape($url, $debug = false)
     {
         error_log("scraping $url");
@@ -418,6 +530,11 @@ class Scraper extends \RapTToR\Helper
     }
 
 
+    /**
+     * @param mixed $string
+     * 
+     * @return [type]
+     */
     public static function parseEmails($string)
     {
         $pattern = '/[a-z0-9_\-\+\.]+@[a-z0-9\-]+\.([a-z]{2,4})(?:\.[a-z]{2})?/i';
@@ -425,16 +542,31 @@ class Scraper extends \RapTToR\Helper
         return $matches[0];
     }
 
+    /**
+     * @param mixed $string
+     * 
+     * @return [type]
+     */
     public static function parseUrls($string)
     {
         preg_match_all('#\bhttps?://[^,\s()<>]+(?:\([\w\d]+\)|([^,[:punct:]\s]|/))#', $string, $match);
         return (is_array($match[0])) ? $match[0] : null;
     }
 
-   
 
-    
 
+
+
+    /**
+     * @param mixed $url
+     * @param mixed $type
+     * @param mixed $callback
+     * @param null $allow
+     * @param null $disallow
+     * @param null $remove
+     * 
+     * @return [type]
+     */
     public static function ImportLargeUrl($url, $type, $callback, $allow = null, $disallow = null, $remove = null)
     {
         /* while (!feof($handle)) {
@@ -472,24 +604,42 @@ class Scraper extends \RapTToR\Helper
         return $count;
     }
 
-    public
-    static function validUrl($url)
+    /**
+     * @param mixed $url
+     * 
+     * @return [type]
+     */
+    public static function validUrl($url)
     {
         $url = filter_var($url, FILTER_SANITIZE_URL);
         return filter_var($url, FILTER_VALIDATE_URL);
     }
 
-    public
-    static function validEmail($email)
+    /**
+     * @param mixed $email
+     * 
+     * @return [type]
+     */
+    public static function validEmail($email)
     {
         return filter_var($email, FILTER_VALIDATE_EMAIL);
     }
 
+    /**
+     * @param mixed $strOrgNumber
+     * 
+     * @return [type]
+     */
     public static function onlyNumbers($strOrgNumber)
     {
         return preg_replace('/[^0-9.]+/', '', $strOrgNumber);
     }
 
+    /**
+     * @param mixed $url
+     * 
+     * @return [type]
+     */
     public static function fixUrl($url)
     {
         $url = str_ireplace("//", "/", $url);
@@ -501,6 +651,9 @@ class Scraper extends \RapTToR\Helper
 
 
 
+    /**
+     * @return [type]
+     */
     public static function getCacheDir()
     {
         $cache = self::$cachedir;
@@ -508,6 +661,12 @@ class Scraper extends \RapTToR\Helper
         return $cache;
     }
 
+    /**
+     * @param mixed $obj
+     * @param bool $deep
+     * 
+     * @return [type]
+     */
     public static function objectToArray($obj, $deep = true)
     {
         $reflectionClass = new \ReflectionClass(get_class($obj));
@@ -526,6 +685,12 @@ class Scraper extends \RapTToR\Helper
 
 
 
+    /**
+     * @param null $url
+     * @param int $timeout
+     * 
+     * @return [type]
+     */
     public static function again($url = null, $timeout = 2000)
     {
         if ($timeout < 100) $timeout *= 1000;
@@ -574,6 +739,12 @@ class Scraper extends \RapTToR\Helper
         return $content;
     }
 
+    /**
+     * @param mixed $pages
+     * @param null $base
+     * 
+     * @return [type]
+     */
     public static function lastLinks($pages, $base = null)
     {
         if (!is_null($base))
@@ -591,6 +762,13 @@ class Scraper extends \RapTToR\Helper
         return $new;
     }
 
+    /**
+     * @param mixed $content
+     * @param string $div
+     * @param bool $fullLinks
+     * 
+     * @return [type]
+     */
     public static function extractLinks($content, $div = "body", $fullLinks = false)
     {
         $p = \Pharse::str_get_dom($content);
@@ -612,6 +790,13 @@ class Scraper extends \RapTToR\Helper
         return $links;
     }
 
+    /**
+     * @param mixed $content
+     * @param string $div
+     * @param bool $fullLinks
+     * 
+     * @return [type]
+     */
     public static function extractPhotos($content, $div = "body", $fullLinks = false)
     {
         $p = \Pharse::str_get_dom($content);
