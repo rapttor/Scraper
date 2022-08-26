@@ -16,12 +16,12 @@ Install
 or
 
       "require": {
-        "rapttor/yiihelper": "dev-master"
+        "rapttor/scraper": "dev-master"
       },
       "repositories":[
         {
           "type": "vcs",
-          "url": "https://github.com/rapttor/yiihelper.git"
+          "url": "https://github.com/rapttor/scraper.git"
         }
       ]
       
