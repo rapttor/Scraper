@@ -39,6 +39,10 @@
           }
         }
       }
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/rapttor/helper.git"
     }
   ],
   "require": {
