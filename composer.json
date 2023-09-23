@@ -42,7 +42,7 @@
     }
   ],
   "require": {
-    "php": ">=4.5.0",
+    "php": ">=5.5.0",
     "rapttor/helper": "dev-master",
     "ressio/pharse": "^0.2.0"
   },
