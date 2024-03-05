@@ -1135,11 +1135,12 @@ class Scraper extends \RapTToR\Helper
      */
     public static function get_content($url)
     {
-        $agent=(new userAgent) ->generate();
-        $cookie = "Cookie: parser=scraper;\r\n";
+        //$agent = (new userAgent)->generate();
+        $agent = "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3\r\n";
+        //$cookie = "Cookie: parser=scraper;\r\n";
         $options = [
             "http" => [
-                "header" => $agent . $cookie,
+                "header" => $agent,
                 //"proxy" => "tcp://$proxy",
                 //"request_fulluri" => true, // Required for some proxy configurations
                 "follow_location" => 1, // Enable follow redirects
