@@ -965,7 +965,7 @@ class Scraper extends \RapTToR\Helper
     public static function parseUrls($string)
     {
         preg_match_all('#\bhttps?://[^,\s()<>]+(?:\([\w\d]+\)|([^,[:punct:]\s]|/))#', $string, $match);
-        return (is_array($match[0])) ? $match[0] : null;
+        return(is_array($match[0])) ? $match[0] : null;
     }
 
 
@@ -987,9 +987,9 @@ class Scraper extends \RapTToR\Helper
         /* while (!feof($handle)) {
                 $line = stream_get_line($handle, 1000000, "\n");
             }*/
-        $allows = (strlen($allow) > 0) ? explode("\r\n", $allow) : null;
-        $disallows = (strlen($disallow) > 0) ? explode("\r\n", $disallow) : null;
-        $removes = (strlen($remove) > 0) ? explode("\r\n", $remove) : null;
+        $allows = (is_string($allow) && strlen($allow) > 0) ? explode("\r\n", $allow) : null;
+        $disallows = (is_string($disallow) && strlen($disallow) > 0) ? explode("\r\n", $disallow) : null;
+        $removes = (is_string($remove) && strlen($remove) > 0) ? explode("\r\n", $remove) : null;
         $count = array("import" => 0, "discard" => 0, "allows" => $allows, "disallows" => $disallows);
         $largefile = new Bigfile($url);
         $iterator = $largefile->iterate("Text"); // Text or Binary based on your file type
@@ -1003,11 +1003,13 @@ class Scraper extends \RapTToR\Helper
                         if (stripos($url, $a) > -1)
                             $ok = true;
                 }
-                if (is_array($disallows) && count($disallows) > 0) foreach ($disallows as $a)
+                if (is_array($disallows) && count($disallows) > 0)
+                    foreach ($disallows as $a)
                         if (stripos($url, $a) > -1)
                             $ok = false;
 
-                if (is_array($removes) && count($removes) > 0) foreach ($removes as $a)
+                if (is_array($removes) && count($removes) > 0)
+                    foreach ($removes as $a)
                         $url = str_ireplace($a, "", $url);
 
                 if ($ok && Scraper::validUrl($url)) {
@@ -1126,6 +1128,38 @@ class Scraper extends \RapTToR\Helper
     }
 
     /**
+     * Retrieves the content from the given URL using file_get_contents and stream_context_create.
+     *
+     * @param string $url The URL of the content to retrieve
+     * @return string The content retrieved from the URL
+     */
+    public static function get_content($url)
+    {
+        $agent=(new userAgent) ->generate();
+        $cookie = "Cookie: parser=scraper;\r\n";
+        $options = [
+            "http" => [
+                "header" => $agent . $cookie,
+                //"proxy" => "tcp://$proxy",
+                //"request_fulluri" => true, // Required for some proxy configurations
+                "follow_location" => 1, // Enable follow redirects
+                // "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3\r\n"
+            ]
+        ];
+
+        /* $proxy = 'proxy_ip:proxy_port'; // Replace 'proxy_ip:proxy_port' with your proxy details
+         $proxyAuth = 'username:password'; // Replace 'username:password' with your proxy credentials if required
+        
+        if (!empty($proxyAuth)) {
+            $options["http"]["header"] .= "Proxy-Authorization: Basic " . base64_encode($proxyAuth) . "\r\n";
+        }
+        */
+        $context = stream_context_create($options);
+        $html = @file_get_contents($url, false, $context);
+        return $html;
+
+    }
+    /**
      * @param $url
      * @param bool $forced
      * @param int $timeout // hours
@@ -1171,7 +1205,8 @@ class Scraper extends \RapTToR\Helper
                 if (stripos($page, "http") === false)
                     $pages[$k] = $base . $page;
 
-        $new = []; foreach ($pages as $i => $p) {
+        $new = [];
+        foreach ($pages as $i => $p) {
             $ok = true;
             foreach ($pages as $j => $v)
                 if ($ok) {
