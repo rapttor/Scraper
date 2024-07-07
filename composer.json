@@ -1,6 +1,7 @@
 {
   "name": "rapttor/scraper",
   "description": "General scraping helper class",
+  "version": "1.0.0",
   "keywords": [
     "php",
     "helper",
