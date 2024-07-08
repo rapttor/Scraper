@@ -1,17 +1,16 @@
-Yii Helper class
+Scraping class
 =========================
 
 Features
 --------
 
-* Simplify your life working with Yii1.1.x rest apps
-* PSR-4 autoloading compliant structure
-* Unit-Testing with PHPUnit [in progress]
+Scraping helper class
+
     
 Install
 -------
 
-    composer require rapttor/yiihelper
+    composer require rapttor/scraper
 
 or
 
